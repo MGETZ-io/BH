@@ -144,15 +144,42 @@
             <p>Willkommen in der Bauhaus-App!</p>
         </div>
 
-        <div id="mitarbeiterkarte" class="page">
-            <h2>🎖 Mitarbeiterkarte</h2>
-            <div class="employee-card">
-                <h2>Maxim Getz</h2>
-                <p>Punkte:</p>
-                <p class="points" id="punkte">0</p>
-                <button onclick="addPunkte()">➕ Punkte sammeln</button>
-            </div>
-        </div>
+        <main>
+        <!-- Kassenübersicht Section -->
+        <section id="cashRegister" class="section">
+            <h2>Aktuelle Kassenübersicht</h2>
+            <p>Hier kannst du die aktuellen Kassen und ihre Einnahmen sehen.</p>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Kasse</th>
+                        <th>Verkäufe</th>
+                        <th>Verbleibende Summe</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Kasse 1</td>
+                        <td>350,00€</td>
+                        <td>1.200,00€</td>
+                    </tr>
+                    <tr>
+                        <td>Kasse 2</td>
+                        <td>420,00€</td>
+                        <td>1.050,00€</td>
+                    </tr>
+                    <tr>
+                        <td>Kasse 3</td>
+                        <td>210,00€</td>
+                        <td>1.800,00€</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <button onclick="refreshCashRegister()">Kassenübersicht aktualisieren</button>
+        </section>
+
 
         <div id="inventar" class="page">
             <h2>📦 Inventar</h2>
