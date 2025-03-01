@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="mobile-web-app-capable" content="yes">
+    <title>Bauhaus App</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: Arial, sans-serif; }
+        body { text-align: center; background-color: #f0f0f0; display: flex; justify-content: center; align-items: center; height: 100vh; flex-direction: column; }
+        #splash { position: fixed; width: 100%; height: 100%; background: white; display: flex; justify-content: center; align-items: center; font-size: 24px; font-weight: bold; color: red; }
+        #login, #app, #installHint { display: none; }
+        #login { background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.2); }
+        input { font-size: 20px; text-align: center; padding: 10px; width: 100%; margin-top: 10px; }
+        button { margin-top: 10px; padding: 10px; width: 100%; background: red; color: white; border: none; cursor: pointer; }
+        #tabs { display: flex; justify-content: space-evenly; width: 100%; margin-top: 20px; background-color: #333; }
+        #tabs button { color: white; background-color: #444; padding: 10px 20px; cursor: pointer; border: none; width: 33.33%; }
+        #tabs button:hover { background-color: #555; }
+        .tab-content { display: none; }
+        .active-tab { display: block; }
+        #employeeCard { display: none; margin-top: 20px; }
+        .card { width: 300px; height: 200px; background: #333; color: white; border-radius: 10px; padding: 20px; display: flex; flex-direction: column; justify-content: space-between; position: relative; }
+        .card-animation { animation: rotateCard 3s infinite; }
+        .points { font-size: 24px; font-weight: bold; }
+        .card-front, .card-back { position: absolute; width: 100%; height: 100%; top: 0; left: 0; backface-visibility: hidden; }
+        .card-back { transform: rotateY(180deg); display: flex; justify-content: center; align-items: center; background: #444; }
+        .card-container { perspective: 1000px; }
+        @keyframes rotateCard { 0% { transform: rotateY(0deg); } 50% { transform: rotateY(180deg); } 100% { transform: rotateY(360deg); } }
+        .menu { display: none; position: absolute; top: 0; right: 0; background-color: #fff; width: 200px; padding: 20px; box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1); border-radius: 10px; }
+        .menu button { width: 100%; margin-top: 10px; background-color: #ff5733; color: white; padding: 10px; border: none; cursor: pointer; }
+        .menu button:hover { background-color: #e74c3c; }
+        .product { background-color: #ddd; padding: 10px; margin: 5px; cursor: pointer; border-radius: 5px; }
+        .product:hover { background-color: #ccc; }
+    </style>
+</head>
+<body>
+
+<div id="splash">
+    <p>Bauhaus App - Bitte als Web-App hinzufügen!</p>
+</div>
+
+<div id="installHint">
+    <p>Diese App sollte als Web-App hinzugefügt werden, um die besten Funktionen zu nutzen.</p>
+</div>
+
+<div id="login">
+    <h2>Login</h2>
+    <input type="number" id="pin" placeholder="PIN eingeben">
+    <button onclick="login()">Einloggen</button>
+</div>
+
+<div id="app">
+    <div id="tabs">
+        <button onclick="showTab('home')">Home</button>
+        <button onclick="showTab('employeeCard')">Mitarbeiterkarte</button>
+        <button onclick="showTab('inventory')">Inventar</button>
+        <button onclick="showMenu()">Menü</button>
+    </div>
+
+    <div id="home" class="tab-content active-tab">
+        <h1>Willkommen bei der Bauhaus-App!</h1>
+        <button onclick="collectPoints()">Punkte sammeln!</button>
+    </div>
+
+    <div id="employeeCard" class="tab-content">
+        <div class="card-container">
+            <div class="card card-animation">
+                <div class="card-front">
+                    <p>Digitale Mitarbeiterkarte</p>
+                    <div class="points">Punkte: <span id="points">0</span></div>
+                </div>
+                <div class="card-back">
+                    <p>Herzlichen Glückwunsch!</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="inventory" class="tab-content">
+        <h2>Fake-Inventar</h2>
+        <div id="productList"></div>
+    </div>
+
+    <div id="menu" class="menu">
+        <h3>Angemeldet als: <span id="username"></span></h3>
+        <button onclick="logout()">Ausloggen</button>
+        <button onclick="window.location.href='https://google.com'">Go Premium</button>
+    </div>
+</div>
+
+<script>
+    const validPin = "2202";
+    let points = localStorage.getItem("points") ? parseInt(localStorage.getItem("points")) : 0;
+    let username = "maxim.getz"; // Username
+
+    function showApp() {
+        document.getElementById("splash").style.display = "none";
+        document.getElementById("login").style.display = "none";
+        document.getElementById("installHint").style.display = "none";
+        document.getElementById("app").style.display = "block";
+        updatePoints();
+        document.getElementById("username").textContent = username;
+    }
+
+    function login() {
+        const pin = document.getElementById("pin").value;
+        if (pin === validPin) {
+            localStorage.setItem("isLoggedIn", "true");
+            showApp();
+        } else {
+            alert("Falsche PIN.");
+        }
+    }
+
+    function updatePoints() {
+        document.getElementById("points").textContent = points;
+    }
+
+    function collectPoints() {
+        points += 10; // Sammle Punkte
+        localStorage.setItem("points", points); // Speichern der Punkte
+        updatePoints();
+    }
+
+    function showTab(tabName) {
+        document.querySelectorAll('.tab-content').forEach(tab => {
+            tab.classList.remove('active-tab');
+        });
+        document.getElementById(tabName).classList.add('active-tab');
+    }
+
+    function showMenu() {
+        document.getElementById("menu").style.display = 'block';
+    }
+
+    function logout() {
+        localStorage.removeItem("isLoggedIn");
+        document.getElementById("app").style.display = "none";
+        document.getElementById("login").style.display = "block";
+        document.getElementById("menu").style.display = 'none';
+    }
+
+    // Initial loading of products into inventory
+    function loadInventory() {
+        const products = [
+            { name: "Holzart: Eiche", price: "49,99€" },
+            { name: "Holzart: Buche", price: "39,99€" },
+            { name: "Kassentrenner Modell X", price: "9,99€" },
+            { name: "Kassentrenner Modell Y", price: "12,99€" },
+            { name: "Drucker HP DeskJet", price: "79,99€" },
+            { name: "Amazon Echo 3", price: "99,99€" },
+            { name: "Playstation 4 Dualshock Controller", price: "59,99€" },
+            { name: "LED-Lampe Philips", price: "15,99€" },
+            { name: "Werkzeug Koffer", price: "59,99€" },
+            { name: "Akkuschrauber Bosch", price: "99,99€" },
+            { name: "Schraubenzieher-Set", price: "19,99€" },
+            { name: "Druckerpatronen HP", price: "29,99€" },
+            { name: "Spiegel 60x80", price: "69,99€" },
+            { name: "Bauhaus Gartenschlauch", price: "29,99€" },
+            { name: "Wasserkocher Edelstahl", price: "49,99€" },
+            { name: "Kaffeemaschine", price: "89,99€" },
+            { name: "Staubsauger Dyson", price: "349,99€" },
+            { name: "Energiesparlampe", price: "5,99€" },
+            { name: "Bauhaus Frischhaltefolie", price: "2,99€" },
+            { name: "Gartenstuhl", price: "39,99€" },
+            { name: "Garten-Tisch", price: "79,99€" }
+        ];
+
+        const productList = document.getElementById("productList");
+        products.forEach(product => {
+            const productDiv = document.createElement("div");
+            productDiv.classList.add("product");
+            productDiv.innerHTML = `${product.name} - ${product.price}`;
+            productDiv.onclick = () => showProductDetails(product);
+            productList.appendChild(productDiv);
+        });
+    }
+
+    function showProductDetails(product) {
+        alert(`Details zu ${product.name}\nPreis: ${product.price}`);
+    }
+
+    if (localStorage.getItem("isLoggedIn")) {
+        showApp();
+    } else {
+        document.getElementById("login").style.display = "block";
+    }
+
+    loadInventory();
+</script>
+
+</body>
+</html>
