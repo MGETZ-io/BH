@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="theme-color" content="#005f73">
-    <title>Bauhaus Mitarbeiter App</title>
+    <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Für Fullscreen auf iPhones -->
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Statusbar verstecken -->
+    <meta name="apple-mobile-web-app-title" content="Bauhaus Mitarbeiter App"> <!-- Titel im Homescreen -->
     <link rel="icon" href="bhh.png" type="image/png">
     <link rel="stylesheet" href="styles.css">
     <style>
@@ -163,7 +165,7 @@
             color: white;
         }
 
-        /* Fullscreen PWA Styles */
+        /* PWA Styles for iPhone */
         .pwa-fullscreen {
             display: none;
         }
@@ -284,16 +286,11 @@
             productList.appendChild(product);
         }
 
-        // Funktionen
-        function refreshCashRegister() {
-            alert('Kassenübersicht wurde aktualisiert!');
+        function showProduct(name, description, price) {
+            alert(`Name: ${name}\nBeschreibung: ${description}\nPreis: ${price}`);
         }
 
-        function showProduct(productName, description, price) {
-            alert('Produkt: ' + productName + '\n' + 'Beschreibung: ' + description + '\n' + 'Preis: ' + price);
-        }
-
-        // PWA Installation Logic
+        // PWA Prompt für iPhone
         let deferredPrompt;
 
         window.addEventListener('beforeinstallprompt', (e) => {
@@ -312,9 +309,12 @@
                 document.getElementById('pwaPrompt').classList.remove('active');
             });
         }
+
+        // Funktion für Kassenübersicht aktualisieren
+        function refreshCashRegister() {
+            alert('Kassenübersicht wurde aktualisiert!');
+        }
     </script>
 
 </body>
 </html>
-
-
