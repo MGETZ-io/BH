@@ -3,318 +3,260 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#005f73">
-    <meta name="apple-mobile-web-app-capable" content="yes"> <!-- Für Fullscreen auf iPhones -->
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"> <!-- Statusbar verstecken -->
-    <meta name="apple-mobile-web-app-title" content="Bauhaus Mitarbeiter App"> <!-- Titel im Homescreen -->
-    <link rel="icon" href="bhh.png" type="image/png">
-    <link rel="stylesheet" href="styles.css">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>Bauhaus Mitarbeiter-App</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bauhaus_logo.svg/512px-Bauhaus_logo.svg.png">
+    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bauhaus_logo.svg/512px-Bauhaus_logo.svg.png">
     <style>
-        * {
+        body {
+            font-family: 'Helvetica', sans-serif;
             margin: 0;
             padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f1f1f1;
-            color: #333;
-        }
-
-        header {
-            background-color: #005f73;
-            color: white;
-            padding: 1.5rem;
+            background-color: #f0f0f0;
             text-align: center;
         }
-
-        header #logo {
-            width: 60px;
-            margin-bottom: 1rem;
-        }
-
-        nav {
-            background-color: #0a9396;
-            padding: 1rem;
-        }
-
-        nav .nav-list {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        nav .nav-list li {
-            list-style-type: none;
-        }
-
-        nav .nav-list a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            padding: 10px 20px;
-            border-radius: 5px;
-        }
-
-        nav .nav-list a:hover {
-            background-color: #94d2bd;
-        }
-
-        main {
-            padding: 2rem;
-        }
-
-        .section {
-            margin-bottom: 2rem;
-            background-color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        section h2 {
-            font-size: 1.5rem;
-            color: #005f73;
-            margin-bottom: 1rem;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-
-        table th, table td {
-            padding: 12px;
-            text-align: center;
-            border: 1px solid #ddd;
-        }
-
-        table th {
-            background-color: #0a9396;
-            color: white;
-        }
-
-        button {
-            background-color: #005f73;
+        #installPrompt {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff0000;
             color: white;
             padding: 10px 20px;
-            border: none;
             border-radius: 5px;
             cursor: pointer;
-            font-size: 1rem;
         }
-
-        button:hover {
-            background-color: #0a9396;
-        }
-
-        .employee-card {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-top: 1rem;
-        }
-
-        .employee-img {
-            width: 100px;
-            border-radius: 50%;
-        }
-
-        .inventory-list {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-top: 1rem;
-        }
-
-        .product-item {
-            background-color: #ffffff;
-            padding: 20px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        .product-item img {
-            width: 100%;
-            border-radius: 5px;
-        }
-
-        .product-item h3 {
-            font-size: 1.2rem;
-            color: #0a9396;
-            margin-top: 10px;
-        }
-
-        .product-item p {
-            color: #333;
-            margin-top: 5px;
-        }
-
-        .product-item button {
-            margin-top: 10px;
-            background-color: #0a9396;
-        }
-
-        footer {
-            text-align: center;
-            padding: 1rem;
-            background-color: #005f73;
-            color: white;
-        }
-
-        /* PWA Styles for iPhone */
-        .pwa-fullscreen {
+        .hidden {
             display: none;
         }
-
-        .pwa-fullscreen.active {
-            display: block;
-            text-align: center;
-            padding: 1rem;
-            background-color: #005f73;
+        #content {
+            display: none;
+            padding: 20px;
+        }
+        .tabbar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #ff0000;
+            display: flex;
+            justify-content: space-evenly;
+            padding: 15px 0;
+            font-size: 20px;
             color: white;
+        }
+        .tab {
+            cursor: pointer;
+        }
+        .page {
+            display: none;
+            padding: 20px;
+            margin-top: 60px;
+        }
+        .active {
+            display: block;
+        }
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .product-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+        }
+        .product-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .product-item h3 {
+            font-size: 16px;
+            margin: 10px 0;
+            color: #333;
+        }
+        .product-item p {
+            font-size: 14px;
+            color: #888;
+        }
+        .product-item button {
+            background: #ff0000;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .product-item button:hover {
+            background: #e60000;
+        }
+        .employee-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .employee-card h2 {
+            font-size: 22px;
+            color: #333;
+        }
+        .employee-card p {
+            font-size: 16px;
+            color: #888;
+        }
+        .employee-card .points {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff0000;
+        }
+        .employee-card button {
+            background: #ff0000;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .employee-card button:hover {
+            background: #e60000;
+        }
+        /* Styling for the audio player */
+        .audio-player {
+            margin-top: 20px;
+            background-color: #fff;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .audio-player audio {
+            width: 100%;
+            border-radius: 5px;
         }
     </style>
 </head>
 <body>
 
-    <!-- Header with logo -->
-    <header>
-        <div class="header-content">
-            <img src="BH.png" alt="Bauhaus Logo" id="logo">
-            <h1>Willkommen bei der Bauhaus Mitarbeiter App</h1>
+    <h1>Bauhaus Mitarbeiter-App</h1>
+    <p>Willkommen zur Web-App für Bauhaus-Mitarbeiter!</p>
+    
+    <div id="installPrompt">➕ Bitte als Web-App installieren</div>
+
+    <div id="content">
+        <div id="home" class="page active">
+            <h2>🏠 Home</h2>
+            <p>Willkommen in der Bauhaus-App!</p>
+
+            <!-- Laut.fm Player -->
+            <div class="audio-player">
+                <h3>🎶 Bauhaus Radio</h3>
+                <audio controls>
+                    <source src="https://laut.fm/bauhaus" type="audio/mpeg">
+                    Dein Browser unterstützt dieses Audioformat nicht.
+                </audio>
+            </div>
         </div>
-    </header>
 
-    <!-- Navigation -->
-    <nav>
-        <ul class="nav-list">
-            <li><a href="#home">Home</a></li>
-            <li><a href="#employeeCard">Mitarbeiterkarte</a></li>
-            <li><a href="#inventory">Inventar</a></li>
-            <li><a href="#cashRegister">Kassenübersicht</a></li>
-        </ul>
-    </nav>
-
-    <!-- Main Content -->
-    <main>
-        <!-- Kassenübersicht Section -->
-        <section id="cashRegister" class="section">
-            <h2>Aktuelle Kassenübersicht</h2>
-            <p>Hier kannst du die aktuellen Kassen und ihre Einnahmen sehen.</p>
-
-            <table>
-                <thead>
-                    <tr>
-                        <th>Kasse</th>
-                        <th>Verkäufe</th>
-                        <th>Verbleibende Summe</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Kasse 1</td>
-                        <td>350,00€</td>
-                        <td>1.200,00€</td>
-                    </tr>
-                    <tr>
-                        <td>Kasse 2</td>
-                        <td>420,00€</td>
-                        <td>1.050,00€</td>
-                    </tr>
-                    <tr>
-                        <td>Kasse 3</td>
-                        <td>210,00€</td>
-                        <td>1.800,00€</td>
-                    </tr>
-                </tbody>
-            </table>
-
-            <button onclick="refreshCashRegister()">Kassenübersicht aktualisieren</button>
-        </section>
-
-        <!-- Mitarbeiterkarte Section -->
-        <section id="employeeCard" class="section">
-            <h2>Deine Mitarbeiterkarte</h2>
-            <p>Hier kannst du deine Mitarbeiterkarte mit Punkten und Infos sehen.</p>
+        <div id="mitarbeiterkarte" class="page">
+            <h2>🎖 Mitarbeiterkarte</h2>
             <div class="employee-card">
-                <img src="https://via.placeholder.com/100" alt="Mitarbeiterbild" class="employee-img">
-                <h3>Maxim Getz</h3>
-                <p>Deine Punkte: <span id="points">100</span> Punkte</p>
+                <h2>Maxim Getz</h2>
+                <p>Punkte:</p>
+                <p class="points" id="punkte">0</p>
+                <button onclick="addPunkte()">➕ Punkte sammeln</button>
             </div>
-        </section>
+        </div>
 
-        <!-- Inventar Section -->
-        <section id="inventory" class="section">
-            <h2>Inventar Übersicht</h2>
-            <p>Hier findest du eine Übersicht unserer Produkte.</p>
-            <div class="inventory-list">
-                <!-- Generierung von 100 Produkten -->
-                <div id="productList"></div>
+        <div id="inventar" class="page">
+            <h2>📦 Inventar</h2>
+            <div class="product-list">
+                <!-- Example of a product item. Repeat for other items -->
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="Produktbild">
+                    <h3>🪵 Holzbretter</h3>
+                    <p>Preis: 10,99€</p>
+                    <button onclick="showProduct('Holzbretter', 'Robuste Holzbretter für Bauprojekte.', '10,99€')">Mehr Info</button>
+                </div>
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="Produktbild">
+                    <h3>🛒 Kassentrenner</h3>
+                    <p>Preis: 2,99€</p>
+                    <button onclick="showProduct('Kassentrenner', 'Plastiktrenner für Kassenbereiche.', '2,99€')">Mehr Info</button>
+                </div>
+                <!-- Add more items here... -->
             </div>
-        </section>
-    </main>
+        </div>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2025 Bauhaus - Alle Rechte vorbehalten</p>
-    </footer>
+        <div id="menu" class="page">
+            <h2>⚙ Menü</h2>
+            <p>Eingeloggt als: <b>maxim.getz</b></p>
+            <button onclick="logout()">🚪 Ausloggen</button>
+            <button onclick="goPremium()">🌟 Go Premium</button>
+        </div>
+    </div>
 
-    <!-- PWA fullscreen prompt -->
-    <div class="pwa-fullscreen" id="pwaPrompt">
-        <p>Füge die App deinem Startbildschirm hinzu, um sie als Web-App zu nutzen!</p>
-        <button onclick="installPWA()">Jetzt installieren</button>
+    <div class="tabbar">
+        <div class="tab" onclick="switchTab('home')">🏠 Home</div>
+        <div class="tab" onclick="switchTab('mitarbeiterkarte')">🎖 Mitarbeiterkarte</div>
+        <div class="tab" onclick="switchTab('inventar')">📦 Inventar</div>
+        <div class="tab" onclick="switchTab('menu')">⚙ Menü</div>
     </div>
 
     <script>
-        // Produkte generieren
-        const productList = document.getElementById('productList');
+        function isStandalone() {
+            return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
+        }
 
-        for (let i = 1; i <= 100; i++) {
-            const product = document.createElement('div');
-            product.classList.add('product-item');
+        document.addEventListener("DOMContentLoaded", function () {
+            if (!isStandalone()) {
+                document.getElementById("installPrompt").style.display = "block";
+            } else {
+                document.getElementById("installPrompt").style.display = "none";
+                document.getElementById("content").style.display = "block";
+            }
+        });
 
-            product.innerHTML = `
-                <img src="https://via.placeholder.com/150" alt="Produktbild">
-                <h3>Produkt ${i}</h3>
-                <p>Preis: ${(Math.random() * 100 + 1).toFixed(2)}€</p>
-                <button onclick="showProduct('Produkt ${i}', 'Beschreibung für Produkt ${i}.', '${(Math.random() * 100 + 1).toFixed(2)}€')">Mehr Info</button>
-            `;
-            productList.appendChild(product);
+        document.getElementById("installPrompt").addEventListener("click", function () {
+            alert("Füge diese Seite zu deinem Startbildschirm hinzu!");
+        });
+
+        function switchTab(tabName) {
+            document.querySelectorAll(".page").forEach(page => {
+                page.classList.remove("active");
+            });
+            document.getElementById(tabName).classList.add("active");
+        }
+
+        function addPunkte() {
+            let punkte = parseInt(localStorage.getItem("punkte") || "0");
+            punkte += 10;
+            localStorage.setItem("punkte", punkte);
+            document.getElementById("punkte").innerText = punkte;
         }
 
         function showProduct(name, description, price) {
-            alert(`Name: ${name}\nBeschreibung: ${description}\nPreis: ${price}`);
+            alert(`📦 ${name}\n\n${description}\n💰 Preis: ${price}`);
         }
 
-        // PWA Prompt für iPhone
-        let deferredPrompt;
+        function logout() {
+            alert("Du wurdest ausgeloggt!");
+        }
 
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            document.getElementById('pwaPrompt').classList.add('active');
+        function goPremium() {
+            window.location.href = "https://www.google.com";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("punkte").innerText = localStorage.getItem("punkte") || "0";
         });
-
-        function installPWA() {
-            deferredPrompt.prompt();
-            deferredPrompt.userChoice.then((choiceResult) => {
-                if (choiceResult.outcome === 'accepted') {
-                    console.log('App wurde hinzugefügt!');
-                }
-                deferredPrompt = null;
-                document.getElementById('pwaPrompt').classList.remove('active');
-            });
-        }
-
-        // Funktion für Kassenübersicht aktualisieren
-        function refreshCashRegister() {
-            alert('Kassenübersicht wurde aktualisiert!');
-        }
     </script>
-
 </body>
 </html>
