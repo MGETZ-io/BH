@@ -3,8 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#005f73">
     <title>Bauhaus Mitarbeiter App</title>
     <link rel="icon" href="bhh.png" type="image/png">
+    <link rel="stylesheet" href="styles.css">
     <style>
         * {
             margin: 0;
@@ -160,6 +162,19 @@
             background-color: #005f73;
             color: white;
         }
+
+        /* Fullscreen PWA Styles */
+        .pwa-fullscreen {
+            display: none;
+        }
+
+        .pwa-fullscreen.active {
+            display: block;
+            text-align: center;
+            padding: 1rem;
+            background-color: #005f73;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -246,6 +261,12 @@
         <p>© 2025 Bauhaus - Alle Rechte vorbehalten</p>
     </footer>
 
+    <!-- PWA fullscreen prompt -->
+    <div class="pwa-fullscreen" id="pwaPrompt">
+        <p>Füge die App deinem Startbildschirm hinzu, um sie als Web-App zu nutzen!</p>
+        <button onclick="installPWA()">Jetzt installieren</button>
+    </div>
+
     <script>
         // Produkte generieren
         const productList = document.getElementById('productList');
@@ -257,7 +278,7 @@
             product.innerHTML = `
                 <img src="https://via.placeholder.com/150" alt="Produktbild">
                 <h3>Produkt ${i}</h3>
-                <p>Preis: ${Math.random() * 100 + 1}€</p>
+                <p>Preis: ${(Math.random() * 100 + 1).toFixed(2)}€</p>
                 <button onclick="showProduct('Produkt ${i}', 'Beschreibung für Produkt ${i}.', '${(Math.random() * 100 + 1).toFixed(2)}€')">Mehr Info</button>
             `;
             productList.appendChild(product);
@@ -271,7 +292,29 @@
         function showProduct(productName, description, price) {
             alert('Produkt: ' + productName + '\n' + 'Beschreibung: ' + description + '\n' + 'Preis: ' + price);
         }
+
+        // PWA Installation Logic
+        let deferredPrompt;
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+            document.getElementById('pwaPrompt').classList.add('active');
+        });
+
+        function installPWA() {
+            deferredPrompt.prompt();
+            deferredPrompt.userChoice.then((choiceResult) => {
+                if (choiceResult.outcome === 'accepted') {
+                    console.log('App wurde hinzugefügt!');
+                }
+                deferredPrompt = null;
+                document.getElementById('pwaPrompt').classList.remove('active');
+            });
+        }
     </script>
 
 </body>
 </html>
+
+
