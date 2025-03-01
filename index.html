@@ -2,147 +2,69 @@
 <html lang="de">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="apple-mobile-web-app-title" content="Bauhaus App">
-    <title>Bauhaus Mitarbeiter App</title>
+    <title>Bauhaus Web-App</title>
+    <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bauhaus_logo.svg/512px-Bauhaus_logo.svg.png">
     <style>
-        body { font-family: Arial, sans-serif; text-align: center; margin: 0; background: #f4f4f4; }
-        #loginScreen, #app { display: none; }
-        .hidden { display: none; }
-        .tab { display: flex; justify-content: space-around; background: #d50000; padding: 10px; position: fixed; bottom: 0; width: 100%; }
-        .tab button { background: none; border: none; color: white; font-size: 16px; padding: 10px; }
-        .content { padding: 20px; }
-        #webAppHint { display: none; background: yellow; padding: 10px; position: fixed; top: 0; width: 100%; }
-        .product { background: white; margin: 10px; padding: 10px; border-radius: 5px; cursor: pointer; }
-        .product img { width: 100px; height: 100px; }
-        .menu { background: white; padding: 20px; }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
+        #installPrompt {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ff0000;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .hidden {
+            display: none;
+        }
+        #content {
+            display: none;
+            padding: 20px;
+        }
     </style>
 </head>
 <body>
 
-    <!-- Hinweis für Web-App -->
-    <div id="webAppHint">⚠️ Bitte als Web-App zum Startbildschirm hinzufügen!</div>
+    <h1>Bauhaus Mitarbeiter-App</h1>
+    <p>Willkommen zur Web-App für Bauhaus-Mitarbeiter!</p>
+    
+    <div id="installPrompt">➕ Bitte als Web-App installieren</div>
 
-    <!-- Login Screen -->
-    <div id="loginScreen">
-        <h1>Bauhaus Login</h1>
-        <input type="text" id="username" placeholder="Benutzername"><br>
-        <input type="password" id="pin" placeholder="PIN" pattern="[0-9]*" inputmode="numeric"><br>
-        <button onclick="login()">Login</button>
+    <div id="content">
+        <p>Hier kommen alle Funktionen der App rein...</p>
     </div>
 
-    <!-- Haupt-App -->
-    <div id="app">
-        <div class="tab">
-            <button onclick="showPage('home')">🏠 Home</button>
-            <button onclick="showPage('card')">💳 Mitarbeiterkarte</button>
-            <button onclick="showPage('inventory')">📦 Inventar</button>
-            <button onclick="showPage('menu')">⚙️ Menü</button>
-        </div>
-
-        <!-- Home -->
-        <div id="home" class="content">
-            <h2>Willkommen bei Bauhaus!</h2>
-            <p>Hier findest du alle wichtigen Infos für Mitarbeiter.</p>
-        </div>
-
-        <!-- Mitarbeiterkarte -->
-        <div id="card" class="content hidden">
-            <h2>Deine Mitarbeiterkarte</h2>
-            <p>Punkte: <span id="points">0</span></p>
-            <button onclick="addPoints()">+10 Punkte</button>
-        </div>
-
-        <!-- Inventar -->
-        <div id="inventory" class="content hidden">
-            <h2>Inventar</h2>
-            <div id="productList"></div>
-        </div>
-
-        <!-- Menü -->
-        <div id="menu" class="content hidden menu">
-            <h2>Menü</h2>
-            <p>Eingeloggt als: <span id="loggedUser"></span></p>
-            <button onclick="logout()">Ausloggen</button>
-            <button onclick="goPremium()">🌟 Go Premium</button>
-        </div>
-    </div>
-
-<script>
-    // iOS-Only Web-App Check
-    function checkIOSWebApp() {
-        let isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
-        let isInStandaloneMode = ('standalone' in window.navigator) && window.navigator.standalone;
-
-        if (isIOS && !isInStandaloneMode) {
-            document.getElementById("webAppHint").style.display = "block";
-        } else {
-            document.getElementById("webAppHint").style.display = "none";
+    <script>
+        function isStandalone() {
+            return window.matchMedia('(display-mode: standalone)').matches || window.navigator.standalone === true;
         }
-    }
 
-    document.addEventListener("DOMContentLoaded", checkIOSWebApp);
+        document.addEventListener("DOMContentLoaded", function () {
+            if (!isStandalone()) {
+                document.getElementById("installPrompt").style.display = "block";
+            } else {
+                document.getElementById("installPrompt").style.display = "none";
+                document.getElementById("content").style.display = "block";
+            }
+        });
 
-    // Fake Login
-    function login() {
-        let user = document.getElementById("username").value;
-        let pin = document.getElementById("pin").value;
-        
-        if (user === "maxim.getz" && pin === "2202") {
-            localStorage.setItem("loggedInUser", user);
-            document.getElementById("loginScreen").style.display = "none";
-            document.getElementById("app").style.display = "block";
-            document.getElementById("loggedUser").innerText = user;
-        } else {
-            alert("Falsche Daten!");
-        }
-    }
-
-    function logout() {
-        localStorage.removeItem("loggedInUser");
-        location.reload();
-    }
-
-    function goPremium() {
-        window.location.href = "https://www.google.com";
-    }
-
-    // Seitenwechsel
-    function showPage(page) {
-        document.querySelectorAll(".content").forEach(el => el.classList.add("hidden"));
-        document.getElementById(page).classList.remove("hidden");
-    }
-
-    // Punkte-System
-    function addPoints() {
-        let points = localStorage.getItem("points") || 0;
-        points = parseInt(points) + 10;
-        localStorage.setItem("points", points);
-        document.getElementById("points").innerText = points;
-    }
-
-    document.addEventListener("DOMContentLoaded", () => {
-        document.getElementById("points").innerText = localStorage.getItem("points") || 0;
-    });
-
-    // Fake-Inventar mit echten Preisen
-    let products = [
-        { name: "Holzplatte Eiche", price: "49.99€", img: "https://via.placeholder.com/100" },
-        { name: "Kassentrenner", price: "9.99€", img: "https://via.placeholder.com/100" },
-        { name: "Amazon Echo", price: "89.99€", img: "https://via.placeholder.com/100" }
-    ];
-
-    let productList = document.getElementById("productList");
-    products.forEach(product => {
-        let item = document.createElement("div");
-        item.className = "product";
-        item.innerHTML = `<img src="${product.img}" alt="${product.name}"><br>${product.name} - ${product.price}`;
-        productList.appendChild(item);
-    });
-
-</script>
+        document.getElementById("installPrompt").addEventListener("click", function () {
+            alert("Füge diese Seite zu deinem Startbildschirm hinzu!");
+        });
+    </script>
 
 </body>
 </html>
