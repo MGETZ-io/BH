@@ -10,10 +10,10 @@
     <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bauhaus_logo.svg/512px-Bauhaus_logo.svg.png">
     <style>
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Helvetica', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f5f5f5;
+            background-color: #f0f0f0;
             text-align: center;
         }
         #installPrompt {
@@ -41,20 +41,93 @@
             width: 100%;
             background: #ff0000;
             display: flex;
-            justify-content: space-around;
-            padding: 10px 0;
+            justify-content: space-evenly;
+            padding: 15px 0;
+            font-size: 20px;
+            color: white;
         }
         .tab {
-            color: white;
-            font-size: 18px;
             cursor: pointer;
         }
         .page {
             display: none;
             padding: 20px;
+            margin-top: 60px;
         }
         .active {
             display: block;
+        }
+        .product-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .product-item {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 10px;
+            text-align: center;
+        }
+        .product-item img {
+            width: 100%;
+            height: 150px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+        .product-item h3 {
+            font-size: 16px;
+            margin: 10px 0;
+            color: #333;
+        }
+        .product-item p {
+            font-size: 14px;
+            color: #888;
+        }
+        .product-item button {
+            background: #ff0000;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .product-item button:hover {
+            background: #e60000;
+        }
+        .employee-card {
+            background: #fff;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .employee-card h2 {
+            font-size: 22px;
+            color: #333;
+        }
+        .employee-card p {
+            font-size: 16px;
+            color: #888;
+        }
+        .employee-card .points {
+            font-size: 20px;
+            font-weight: bold;
+            color: #ff0000;
+        }
+        .employee-card button {
+            background: #ff0000;
+            border: none;
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .employee-card button:hover {
+            background: #e60000;
         }
     </style>
 </head>
@@ -73,20 +146,32 @@
 
         <div id="mitarbeiterkarte" class="page">
             <h2>🎖 Mitarbeiterkarte</h2>
-            <p>Punkte: <span id="punkte">0</span></p>
-            <button onclick="addPunkte()">➕ Punkte sammeln</button>
+            <div class="employee-card">
+                <h2>Maxim Getz</h2>
+                <p>Punkte:</p>
+                <p class="points" id="punkte">0</p>
+                <button onclick="addPunkte()">➕ Punkte sammeln</button>
+            </div>
         </div>
 
         <div id="inventar" class="page">
             <h2>📦 Inventar</h2>
-            <p>Klick auf ein Produkt für Details!</p>
-            <ul>
-                <li onclick="showProduct('Holzbretter', 'Robuste Holzbretter für Bauprojekte.', '10,99€')">🪵 Holzbretter</li>
-                <li onclick="showProduct('Kassentrenner', 'Plastiktrenner für Kassenbereiche.', '2,99€')">🛒 Kassentrenner</li>
-                <li onclick="showProduct('Drucker', 'Hochwertiger Laserdrucker.', '89,99€')">🖨 Drucker</li>
-                <li onclick="showProduct('Amazon Echo', 'Smart Speaker mit Alexa.', '99,99€')">🎙 Amazon Echo</li>
-                <li onclick="showProduct('PS4 Controller', 'DualShock 4 für PS4.', '59,99€')">🎮 PS4 Controller</li>
-            </ul>
+            <div class="product-list">
+                <!-- Example of a product item. Repeat for other items -->
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="Produktbild">
+                    <h3>🪵 Holzbretter</h3>
+                    <p>Preis: 10,99€</p>
+                    <button onclick="showProduct('Holzbretter', 'Robuste Holzbretter für Bauprojekte.', '10,99€')">Mehr Info</button>
+                </div>
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="Produktbild">
+                    <h3>🛒 Kassentrenner</h3>
+                    <p>Preis: 2,99€</p>
+                    <button onclick="showProduct('Kassentrenner', 'Plastiktrenner für Kassenbereiche.', '2,99€')">Mehr Info</button>
+                </div>
+                <!-- Add more items here... -->
+            </div>
         </div>
 
         <div id="menu" class="page">
