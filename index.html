@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Bauhaus Web-App</title>
+    <title>Bauhaus Mitarbeiter-App</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bauhaus_logo.svg/512px-Bauhaus_logo.svg.png">
     <link rel="apple-touch-icon" href="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5c/Bauhaus_logo.svg/512px-Bauhaus_logo.svg.png">
     <style>
         body {
@@ -34,6 +35,27 @@
             display: none;
             padding: 20px;
         }
+        .tabbar {
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background: #ff0000;
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+        }
+        .tab {
+            color: white;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        .page {
+            display: none;
+            padding: 20px;
+        }
+        .active {
+            display: block;
+        }
     </style>
 </head>
 <body>
@@ -44,7 +66,42 @@
     <div id="installPrompt">➕ Bitte als Web-App installieren</div>
 
     <div id="content">
-        <p>Hier kommen alle Funktionen der App rein...</p>
+        <div id="home" class="page active">
+            <h2>🏠 Home</h2>
+            <p>Willkommen in der Bauhaus-App!</p>
+        </div>
+
+        <div id="mitarbeiterkarte" class="page">
+            <h2>🎖 Mitarbeiterkarte</h2>
+            <p>Punkte: <span id="punkte">0</span></p>
+            <button onclick="addPunkte()">➕ Punkte sammeln</button>
+        </div>
+
+        <div id="inventar" class="page">
+            <h2>📦 Inventar</h2>
+            <p>Klick auf ein Produkt für Details!</p>
+            <ul>
+                <li onclick="showProduct('Holzbretter', 'Robuste Holzbretter für Bauprojekte.', '10,99€')">🪵 Holzbretter</li>
+                <li onclick="showProduct('Kassentrenner', 'Plastiktrenner für Kassenbereiche.', '2,99€')">🛒 Kassentrenner</li>
+                <li onclick="showProduct('Drucker', 'Hochwertiger Laserdrucker.', '89,99€')">🖨 Drucker</li>
+                <li onclick="showProduct('Amazon Echo', 'Smart Speaker mit Alexa.', '99,99€')">🎙 Amazon Echo</li>
+                <li onclick="showProduct('PS4 Controller', 'DualShock 4 für PS4.', '59,99€')">🎮 PS4 Controller</li>
+            </ul>
+        </div>
+
+        <div id="menu" class="page">
+            <h2>⚙ Menü</h2>
+            <p>Eingeloggt als: <b>maxim.getz</b></p>
+            <button onclick="logout()">🚪 Ausloggen</button>
+            <button onclick="goPremium()">🌟 Go Premium</button>
+        </div>
+    </div>
+
+    <div class="tabbar">
+        <div class="tab" onclick="switchTab('home')">🏠 Home</div>
+        <div class="tab" onclick="switchTab('mitarbeiterkarte')">🎖 Mitarbeiterkarte</div>
+        <div class="tab" onclick="switchTab('inventar')">📦 Inventar</div>
+        <div class="tab" onclick="switchTab('menu')">⚙ Menü</div>
     </div>
 
     <script>
@@ -63,6 +120,36 @@
 
         document.getElementById("installPrompt").addEventListener("click", function () {
             alert("Füge diese Seite zu deinem Startbildschirm hinzu!");
+        });
+
+        function switchTab(tabName) {
+            document.querySelectorAll(".page").forEach(page => {
+                page.classList.remove("active");
+            });
+            document.getElementById(tabName).classList.add("active");
+        }
+
+        function addPunkte() {
+            let punkte = parseInt(localStorage.getItem("punkte") || "0");
+            punkte += 10;
+            localStorage.setItem("punkte", punkte);
+            document.getElementById("punkte").innerText = punkte;
+        }
+
+        function showProduct(name, description, price) {
+            alert(`📦 ${name}\n\n${description}\n💰 Preis: ${price}`);
+        }
+
+        function logout() {
+            alert("Du wurdest ausgeloggt!");
+        }
+
+        function goPremium() {
+            window.location.href = "https://www.google.com";
+        }
+
+        document.addEventListener("DOMContentLoaded", function () {
+            document.getElementById("punkte").innerText = localStorage.getItem("punkte") || "0";
         });
     </script>
 
