@@ -76,27 +76,6 @@
             object-fit: cover;
             border-radius: 10px;
         }
-        .product-item h3 {
-            font-size: 16px;
-            margin: 10px 0;
-            color: #333;
-        }
-        .product-item p {
-            font-size: 14px;
-            color: #888;
-        }
-        .product-item button {
-            background: #ff0000;
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .product-item button:hover {
-            background: #e60000;
-        }
         .employee-card {
             background: #fff;
             border-radius: 10px;
@@ -104,42 +83,10 @@
             margin: 20px 0;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
         }
-        .employee-card h2 {
-            font-size: 22px;
-            color: #333;
-        }
-        .employee-card p {
-            font-size: 16px;
-            color: #888;
-        }
         .employee-card .points {
             font-size: 20px;
             font-weight: bold;
             color: #ff0000;
-        }
-        .employee-card button {
-            background: #ff0000;
-            border: none;
-            color: white;
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
-        .employee-card button:hover {
-            background: #e60000;
-        }
-        /* Styling for the audio player */
-        .audio-player {
-            margin-top: 20px;
-            background-color: #fff;
-            padding: 10px;
-            border-radius: 10px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .audio-player audio {
-            width: 100%;
-            border-radius: 5px;
         }
     </style>
 </head>
@@ -154,13 +101,10 @@
         <div id="home" class="page active">
             <h2>🏠 Home</h2>
             <p>Willkommen in der Bauhaus-App!</p>
-
-            <!-- Laut.fm Player -->
-            <audio controls>
-    <source src="https://laut.fm/bauhaus" type="audio/mpeg">
-    Dein Browser unterstützt dieses Audioformat nicht.
-</audio>
-
+            <audio controls autoplay>
+                <source src="https://stream.laut.fm/bauhaus" type="audio/mpeg">
+                Dein Browser unterstützt kein Audio-Element.
+            </audio>
         </div>
 
         <div id="mitarbeiterkarte" class="page">
@@ -176,20 +120,36 @@
         <div id="inventar" class="page">
             <h2>📦 Inventar</h2>
             <div class="product-list">
-                <!-- Example of a product item. Repeat for other items -->
                 <div class="product-item">
                     <img src="https://via.placeholder.com/150" alt="Produktbild">
                     <h3>🪵 Holzbretter</h3>
                     <p>Preis: 10,99€</p>
-                    <button onclick="showProduct('Holzbretter', 'Robuste Holzbretter für Bauprojekte.', '10,99€')">Mehr Info</button>
                 </div>
                 <div class="product-item">
                     <img src="https://via.placeholder.com/150" alt="Produktbild">
                     <h3>🛒 Kassentrenner</h3>
                     <p>Preis: 2,99€</p>
-                    <button onclick="showProduct('Kassentrenner', 'Plastiktrenner für Kassenbereiche.', '2,99€')">Mehr Info</button>
                 </div>
-                <!-- Add more items here... -->
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="Produktbild">
+                    <h3>🔨 Hammer</h3>
+                    <p>Preis: 14,99€</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="Produktbild">
+                    <h3>🖌 Pinsel-Set</h3>
+                    <p>Preis: 7,99€</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="Produktbild">
+                    <h3>🧹 Besen</h3>
+                    <p>Preis: 5,49€</p>
+                </div>
+                <div class="product-item">
+                    <img src="https://via.placeholder.com/150" alt="Produktbild">
+                    <h3>📏 Maßband</h3>
+                    <p>Preis: 3,99€</p>
+                </div>
             </div>
         </div>
 
@@ -222,10 +182,6 @@
             }
         });
 
-        document.getElementById("installPrompt").addEventListener("click", function () {
-            alert("Füge diese Seite zu deinem Startbildschirm hinzu!");
-        });
-
         function switchTab(tabName) {
             document.querySelectorAll(".page").forEach(page => {
                 page.classList.remove("active");
@@ -240,10 +196,6 @@
             document.getElementById("punkte").innerText = punkte;
         }
 
-        function showProduct(name, description, price) {
-            alert(`📦 ${name}\n\n${description}\n💰 Preis: ${price}`);
-        }
-
         function logout() {
             alert("Du wurdest ausgeloggt!");
         }
@@ -251,10 +203,7 @@
         function goPremium() {
             window.location.href = "https://www.google.com";
         }
-
-        document.addEventListener("DOMContentLoaded", function () {
-            document.getElementById("punkte").innerText = localStorage.getItem("punkte") || "0";
-        });
     </script>
+
 </body>
 </html>
