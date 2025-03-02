@@ -57,36 +57,24 @@
         .active {
             display: block;
         }
-        .product-list {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        .radio-list {
+            display: flex;
             gap: 20px;
+            justify-content: center;
             margin-top: 20px;
         }
-        .product-item {
+        .radio-item {
             background-color: #fff;
+            padding: 15px;
             border-radius: 10px;
             box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-            padding: 10px;
             text-align: center;
+            cursor: pointer;
+            width: 200px;
         }
-        .product-item img {
-            width: 100%;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
-        .employee-card {
-            background: #fff;
-            border-radius: 10px;
-            padding: 20px;
-            margin: 20px 0;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
-        }
-        .employee-card .points {
-            font-size: 20px;
-            font-weight: bold;
-            color: #ff0000;
+        .radio-item:hover {
+            background-color: #ff0000;
+            color: white;
         }
     </style>
 </head>
@@ -101,8 +89,19 @@
         <div id="home" class="page active">
             <h2>🏠 Home</h2>
             <p>Willkommen in der Bauhaus-App!</p>
-            <audio controls autoplay>
-                <source src="https://stream.laut.fm/bauhaus" type="audio/mpeg">
+            
+            <div class="radio-list">
+                <div class="radio-item" onclick="playRadio('https://stream.laut.fm/bauhaus')">
+                    <h3>📻 Bauhaus Radio</h3>
+                    <p>Live aus dem Bauhaus-Universum</p>
+                </div>
+                <div class="radio-item" onclick="playRadio('https://stream.laut.fm/fm-freshup')">
+                    <h3>🎶 FM FreshUp</h3>
+                    <p>Die frischesten Hits</p>
+                </div>
+            </div>
+
+            <audio id="radioPlayer" controls>
                 Dein Browser unterstützt kein Audio-Element.
             </audio>
         </div>
@@ -117,42 +116,6 @@
             </div>
         </div>
 
-        <div id="inventar" class="page">
-            <h2>📦 Inventar</h2>
-            <div class="product-list">
-                <div class="product-item">
-                    <img src="https://via.placeholder.com/150" alt="Produktbild">
-                    <h3>🪵 Holzbretter</h3>
-                    <p>Preis: 10,99€</p>
-                </div>
-                <div class="product-item">
-                    <img src="https://via.placeholder.com/150" alt="Produktbild">
-                    <h3>🛒 Kassentrenner</h3>
-                    <p>Preis: 2,99€</p>
-                </div>
-                <div class="product-item">
-                    <img src="https://via.placeholder.com/150" alt="Produktbild">
-                    <h3>🔨 Hammer</h3>
-                    <p>Preis: 14,99€</p>
-                </div>
-                <div class="product-item">
-                    <img src="https://via.placeholder.com/150" alt="Produktbild">
-                    <h3>🖌 Pinsel-Set</h3>
-                    <p>Preis: 7,99€</p>
-                </div>
-                <div class="product-item">
-                    <img src="https://via.placeholder.com/150" alt="Produktbild">
-                    <h3>🧹 Besen</h3>
-                    <p>Preis: 5,49€</p>
-                </div>
-                <div class="product-item">
-                    <img src="https://via.placeholder.com/150" alt="Produktbild">
-                    <h3>📏 Maßband</h3>
-                    <p>Preis: 3,99€</p>
-                </div>
-            </div>
-        </div>
-
         <div id="menu" class="page">
             <h2>⚙ Menü</h2>
             <p>Eingeloggt als: <b>maxim.getz</b></p>
@@ -164,7 +127,6 @@
     <div class="tabbar">
         <div class="tab" onclick="switchTab('home')">🏠 Home</div>
         <div class="tab" onclick="switchTab('mitarbeiterkarte')">🎖 Mitarbeiterkarte</div>
-        <div class="tab" onclick="switchTab('inventar')">📦 Inventar</div>
         <div class="tab" onclick="switchTab('menu')">⚙ Menü</div>
     </div>
 
@@ -202,6 +164,12 @@
 
         function goPremium() {
             window.location.href = "https://www.google.com";
+        }
+
+        function playRadio(url) {
+            let player = document.getElementById("radioPlayer");
+            player.src = url;
+            player.play();
         }
     </script>
 
