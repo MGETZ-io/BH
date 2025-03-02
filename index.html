@@ -57,13 +57,14 @@
         .active {
             display: block;
         }
-        .radio-list {
+        .radio-list, .inventory {
             display: flex;
             gap: 20px;
             justify-content: center;
             margin-top: 20px;
+            flex-wrap: wrap;
         }
-        .radio-item {
+        .radio-item, .inventory-item {
             background-color: #fff;
             padding: 15px;
             border-radius: 10px;
@@ -72,7 +73,7 @@
             cursor: pointer;
             width: 200px;
         }
-        .radio-item:hover {
+        .radio-item:hover, .inventory-item:hover {
             background-color: #ff0000;
             color: white;
         }
@@ -116,6 +117,24 @@
             </div>
         </div>
 
+        <div id="inventar" class="page">
+            <h2>📦 Inventar</h2>
+            <div class="inventory">
+                <div class="inventory-item">
+                    <h3>🔧 Hammer</h3>
+                    <p>1x</p>
+                </div>
+                <div class="inventory-item">
+                    <h3>🪚 Säge</h3>
+                    <p>2x</p>
+                </div>
+                <div class="inventory-item">
+                    <h3>🔩 Schrauben</h3>
+                    <p>100x</p>
+                </div>
+            </div>
+        </div>
+
         <div id="menu" class="page">
             <h2>⚙ Menü</h2>
             <p>Eingeloggt als: <b>maxim.getz</b></p>
@@ -127,6 +146,7 @@
     <div class="tabbar">
         <div class="tab" onclick="switchTab('home')">🏠 Home</div>
         <div class="tab" onclick="switchTab('mitarbeiterkarte')">🎖 Mitarbeiterkarte</div>
+        <div class="tab" onclick="switchTab('inventar')">📦 Inventar</div>
         <div class="tab" onclick="switchTab('menu')">⚙ Menü</div>
     </div>
 
